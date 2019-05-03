@@ -1,0 +1,66 @@
+{
+  "name": "wt-tracker",
+  "description": "High performance WebTorrent tracker",
+  "version": "0.0.1",
+  "license": "Apache-2.0",
+  "author": "Novage",
+  "homepage": "https://github.com/Novage/wt-tracker",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "engines": {
+    "node": ">=10.0.0"
+  },
+  "bin": {
+    "wt-tracker": "./bin/wt-tracker"
+  },
+  "keywords": [
+    "p2p",
+    "peer-to-peer",
+    "webrtc",
+    "torrent",
+    "bittorrent",
+    "bittorrent-tracker",
+    "webtorrent",
+    "tracker",
+    "websockets"
+  ],
+  "scripts": {
+    "start": "node ./dist/run-uws-tracker.js",
+    "build": "npm run lint && npm run clean && npm run compile",
+    "compile": "tsc",
+    "lint": "tslint -c ./tslint.json -p ./tsconfig.tslint.json",
+    "clean": "rimraf dist",
+    "watch": "tsc --watch",
+    "test": "npm run test:clean && npm run test:compile && npm run test:run",
+    "test:run": "nyc mocha test_dist/**/*.test.js",
+    "test:compile": "tsc --project tsconfig.test.json",
+    "test:clean": "rimraf test_dist",
+    "test:coverage": "nyc report --reporter=lcov --reporter=text",
+    "test:coveralls": "nyc report --reporter=text-lcov | coveralls"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Novage/wt-tracker.git"
+  },
+  "dependencies": {
+    "debug": "^4.1.1",
+    "uWebSockets.js": "github:uNetworking/uWebSockets.js#v15.10.0"
+  },
+  "devDependencies": {
+    "@types/chai": "^4.1.7",
+    "@types/debug": "^4.1.4",
+    "@types/mocha": "^5.2.6",
+    "@types/node": "^11.13.4",
+    "@types/ws": "^6.0.1",
+    "chai": "^4.2.0",
+    "coveralls": "^3.0.3",
+    "mocha": "^6.1.3",
+    "nyc": "^13.3.0",
+    "rimraf": "^2.6.3",
+    "ts-mockito": "^2.3.1",
+    "tslint": "^5.15.0",
+    "tslint-sonarts": "^1.9.0",
+    "typescript": "^3.4.3",
+    "ws": "^6.2.1"
+  }
+}
