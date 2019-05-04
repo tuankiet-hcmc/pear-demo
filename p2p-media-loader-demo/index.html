@@ -31,7 +31,7 @@
         gtag("config", "UA-106860120-1");
     </script>
 
-    <title>P2P Media Loader</title>
+    <title>P2P Demo</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
     <script async src="./assets/p2p-media-loader-core.js"></script>
@@ -40,7 +40,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.17/d3.min.js"></script>
     <script async src="https://cdnjs.cloudflare.com/ajax/libs/rickshaw/1.6.3/rickshaw.min.js"></script>
 
-    <link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/rickshaw/1.6.3/rickshaw.min.css" />
+    <link type="text/css" rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/rickshaw/1.6.3/rickshaw.min.css" />
 
     <style>
         body {
@@ -49,72 +50,73 @@
             margin-top: 1em;
             margin-bottom: 3em;
         }
-        
+
         .main-header .title {
             text-align: center;
         }
-        
+
         .container {
             padding: 0 15px;
             margin: 0 auto;
         }
-        
+
         @media (min-width: 576px) {
             .container {
                 max-width: 540px;
             }
         }
-        
+
         @media (min-width: 768px) {
             .container {
                 max-width: 720px;
             }
         }
-        
+
         @media (min-width: 992px) {
             .container {
                 max-width: 960px;
             }
         }
-        
+
         @media (min-width: 1200px) {
             .container {
                 max-width: 1140px;
             }
         }
-        
+
         #main-view *,
-         ::after,
-         ::before {
+        ::after,
+        ::before {
             box-sizing: border-box;
         }
-        
+
         #main-view .wrapper {
             display: flex;
             flex-wrap: wrap;
         }
-        
+
         #main-view .wrapper .column-1,
         #main-view .wrapper .column-2 {
             width: 100%;
         }
-        
+
         @media (min-width: 768px) {
             #main-view .wrapper .column-1 {
                 flex: 0 0 66.666667%;
                 max-width: 66.666667%;
                 padding-right: 30px;
             }
+
             #main-view .wrapper .column-2 {
                 flex: 0 0 33.333333%;
                 max-width: 33.333333%;
             }
         }
-        
+
         #video {
             width: 100%;
         }
-        
+
         .embed-responsive {
             position: relative;
             display: block;
@@ -122,17 +124,17 @@
             padding: 0;
             overflow: hidden;
         }
-        
+
         #main-view .form-group {
             display: flex;
             flex-direction: column;
             margin-bottom: 1em;
         }
-        
+
         #main-view .form-group label {
             margin-bottom: 0.5em;
         }
-        
+
         #main-view .form-control {
             display: block;
             width: 100%;
@@ -146,7 +148,7 @@
             border: 1px solid #ced4da;
             border-radius: 0.25em;
         }
-        
+
         #main-view .form-button {
             text-align: center;
             white-space: nowrap;
@@ -160,21 +162,21 @@
             border-color: #972e2d;
             margin-bottom: 5px;
         }
-        
+
         #main-view .form-button:hover {
             background-color: #c60000;
             border-color: #c60000;
         }
-        
+
         #main-view .form-button:focus {
             outline: none;
         }
-        
+
         #main-view .embed-responsive::before {
             display: block;
             content: "";
         }
-        
+
         #main-view .embed-responsive .embed-responsive-item {
             position: absolute;
             top: 0;
@@ -184,55 +186,55 @@
             height: 100%;
             border: 0;
         }
-        
+
         #main-view .embed-responsive-16by9::before {
             padding-top: 56.25%;
         }
-        
+
         #main-view #level {
             width: auto;
             float: right;
         }
-        
+
         #graph {
             max-width: 100%;
             overflow: hidden;
             margin: 3em auto;
             border: 1px solid #eee;
         }
-        
+
         #chart_container {
             position: relative;
             margin: 3em auto;
             padding-left: 20px;
             max-width: 100%;
         }
-        
+
         #y_axis {
             position: absolute;
             top: 0;
             width: 40px;
             left: -20px;
         }
-        
+
         #y_axis>svg {
             overflow: visible;
         }
-        
+
         #legend {
             position: absolute;
             top: 20px;
             left: 40px;
             z-index: 1;
         }
-        
+
         #legend-totals {
             position: absolute;
             bottom: 20px;
             left: 40px;
             z-index: 1;
         }
-        
+
         #main-view .hide {
             display: none;
         }
@@ -280,7 +282,9 @@
                         <div class="form-group">
                             <label for="url">Video URL<span id="https-only" class="hide">
                                     (HTTPS only)</span>:</label>
-                            <input type="text" class="form-control" id="url" name="url" placeholder="Please enter video url" required value="https://demo-live.streamroot.io/chunklist_w470358239.m3u8" />
+                            <input type="text" class="form-control" id="url" name="url"
+                                placeholder="Please enter video url" required
+                                value="https://demo-live.streamroot.io/chunklist_w470358239.m3u8" />
                         </div>
                         <button type="submit" class="form-button" onclick="this.form.target=''">
                             Apply
@@ -498,185 +502,6 @@
                     this.refreshGraph();
                 }
 
-                async initHlsJsPlayer() {
-                    if (!Hls.isSupported()) {
-                        return;
-                    }
-                    var video = document.createElement("video");
-                    video.id = "video";
-                    video.volume = 0;
-                    video.setAttribute("playsinline", "");
-                    video.setAttribute("muted", "");
-                    video.setAttribute("autoplay", "");
-                    video.setAttribute("controls", "");
-                    this.videoContainer.appendChild(video);
-
-                    var level = document.createElement("select");
-                    level.id = "level";
-                    level.classList.add("form-control");
-                    this.videoContainer.appendChild(level);
-
-                    var hls = new Hls({
-                        liveSyncDurationCount: this.liveSyncDurationCount,
-                        loader: this.isP2PSupported ?
-                            this.engine.createLoaderClass() : Hls.DefaultConfig.loader
-                    });
-
-                    if (this.isP2PSupported) {
-                        p2pml.hlsjs.initHlsJsPlayer(hls);
-                    }
-
-                    hls.loadSource(this.videoUrl);
-                    hls.attachMedia(video);
-                    hls.on(Hls.Events.MANIFEST_PARSED, () => {
-                        this.hlsLevelSwitcher.init(hls, level);
-                    });
-                }
-
-                async initClapprPlayer(isShaka) {
-                    await loadScript(
-                        "https://cdn.jsdelivr.net/npm/clappr@latest"
-                    );
-                    await loadScript(
-                        "https://cdn.jsdelivr.net/gh/clappr/clappr-level-selector-plugin@latest/dist/level-selector.min.js"
-                    );
-
-                    var outer = document.createElement("div");
-                    outer.className =
-                        "embed-responsive embed-responsive-16by9";
-                    var video = document.createElement("div");
-                    video.id = "video";
-                    video.className = "embed-responsive-item";
-                    outer.appendChild(video);
-                    this.videoContainer.appendChild(outer);
-
-                    var setup = {
-                        parentId: "#video",
-                        plugins: [LevelSelector],
-                        source: this.videoUrl,
-                        width: "100%",
-                        height: "100%",
-                        muted: true,
-                        mute: true,
-                        autoPlay: true,
-                        playback: {
-                            playInline: true
-                        }
-                    };
-
-                    if (isShaka) {
-                        await loadScript(
-                            "https://cdn.jsdelivr.net/gh/clappr/dash-shaka-playback@latest/dist/dash-shaka-playback.external.js"
-                        );
-                        setup.plugins.push(DashShakaPlayback);
-                        setup.shakaOnBeforeLoad = shakaPlayerInstance => {
-                            if (this.isP2PSupported) {
-                                this.engine.initShakaPlayer(
-                                    shakaPlayerInstance
-                                );
-                            }
-                        };
-                    } else {
-                        setup.playback.hlsjsConfig = {
-                            liveSyncDurationCount: this
-                                .liveSyncDurationCount,
-                            loader: this.isP2PSupported ?
-                                this.engine.createLoaderClass() : Hls.DefaultConfig.loader
-                        };
-                    }
-
-                    var player = new Clappr.Player(setup);
-
-                    if (!isShaka && this.isP2PSupported) {
-                        p2pml.hlsjs.initClapprPlayer(player);
-                    }
-                }
-
-                async initMediaElementPlayer() {
-                    await Promise.all([
-                        loadStyle(
-                            "https://cdnjs.cloudflare.com/ajax/libs/mediaelement/4.2.9/mediaelementplayer.min.css"
-                        ),
-                        loadScript(
-                            "https://cdnjs.cloudflare.com/ajax/libs/mediaelement/4.2.9/mediaelement-and-player.min.js"
-                        )
-                    ]);
-
-                    // allow only one supported renderer
-                    mejs.Renderers.order = ["native_hls"];
-
-                    var video = document.createElement("video");
-                    video.id = "video";
-                    video.volume = 0;
-                    video.setAttribute("playsinline", "");
-                    video.setAttribute("muted", "");
-                    video.setAttribute("autoplay", "");
-                    this.videoContainer.appendChild(video);
-
-                    var player = new MediaElementPlayer("video", {
-                        stretching: "responsive",
-                        startVolume: 0,
-                        hls: {
-                            liveSyncDurationCount: this
-                                .liveSyncDurationCount,
-                            loader: this.isP2PSupported ?
-                                this.engine.createLoaderClass() : Hls.DefaultConfig.loader
-                        },
-                        success: mediaElement => {
-                            if (this.isP2PSupported) {
-                                p2pml.hlsjs.initMediaElementJsPlayer(
-                                    mediaElement
-                                );
-                            }
-                        }
-                    });
-
-                    player.setSrc(this.videoUrl);
-                    //player.options.forceLive = true;
-
-                    player.load();
-                    player.play();
-                }
-
-                async initFlowplayerPlayer() {
-                    await Promise.all([
-                        loadStyle(
-                            "https://releases.flowplayer.org/7.2.7/skin/skin.css"
-                        ),
-                        loadScript(
-                            "https://releases.flowplayer.org/7.2.7/flowplayer.min.js"
-                        )
-                    ]);
-
-                    var video = document.createElement("div");
-                    video.id = "video";
-                    video.className = "fp-slim";
-                    this.videoContainer.appendChild(video);
-
-                    var player = flowplayer("#video", {
-                        autoplay: true,
-                        muted: true,
-                        live: true,
-                        clip: {
-                            sources: [{
-                                type: "application/x-mpegurl",
-                                src: this.videoUrl
-                            }]
-                        },
-                        hlsjs: {
-                            liveSyncDurationCount: this
-                                .liveSyncDurationCount,
-                            loader: this.isP2PSupported ?
-                                this.engine.createLoaderClass() : Hls.DefaultConfig.loader,
-                            safari: true
-                        }
-                    });
-
-                    if (this.isP2PSupported) {
-                        p2pml.hlsjs.initFlowplayerHlsJsPlayer(player);
-                    }
-                }
-
                 async initVideoJsContribHlsJsPlayer() {
                     await Promise.all([
                         loadStyle(
@@ -729,65 +554,6 @@
                         player.volume(0);
                         player.play();
                     });
-                }
-
-                async initJwPlayer() {
-                    await loadScript(
-                        "https://content.jwplatform.com/libraries/aG3IMhIy.js"
-                    );
-                    await loadScript("hola-jwplayer-hlsjs.min.js");
-
-                    var video = document.createElement("div");
-                    video.id = "video";
-                    video.volume = 0;
-                    video.setAttribute("playsinline", "");
-                    video.setAttribute("muted", "");
-                    video.setAttribute("autoplay", "");
-                    this.videoContainer.appendChild(video);
-
-                    var player = jwplayer("video");
-                    player.setup({
-                        file: this.videoUrl,
-                        mute: true
-                    });
-
-                    var provider = require("@hola.org/jwplayer-hlsjs");
-                    provider.attach();
-
-                    if (this.isP2PSupported) {
-                        p2pml.hlsjs.initJwPlayer(player, {
-                            liveSyncDurationCount: this
-                                .liveSyncDurationCount,
-                            loader: this.engine.createLoaderClass()
-                        });
-                    }
-                }
-
-                initShakaPlayer() {
-                    if (!shaka.Player.isBrowserSupported()) {
-                        return;
-                    }
-
-                    var video = document.createElement("video");
-                    video.id = "video";
-                    video.volume = 0;
-                    video.setAttribute("playsinline", "");
-                    video.setAttribute("muted", "");
-                    video.setAttribute("autoplay", "");
-                    video.setAttribute("controls", "");
-                    this.videoContainer.appendChild(video);
-
-                    var level = document.createElement("select");
-                    level.id = "level";
-                    level.classList.add("form-control");
-                    this.videoContainer.appendChild(level);
-
-                    var player = new shaka.Player(video);
-                    if (this.isP2PSupported) {
-                        this.engine.initShakaPlayer(player);
-                    }
-                    this.shakaLevelSwitcher.init(player, level);
-                    player.load(this.videoUrl);
                 }
 
                 initChart() {
@@ -909,8 +675,8 @@
                     var data3 = this.chart.series[3].data;
                     var x =
                         data0.length > 0 ?
-                        data0[data0.length - 1].x + 1 :
-                        0;
+                            data0[data0.length - 1].x + 1 :
+                            0;
 
                     data0.shift();
                     data1.shift();
@@ -1100,7 +866,7 @@
                         hls: undefined,
                         select: undefined,
 
-                        init: function(hls, select) {
+                        init: function (hls, select) {
                             if (hls.levelController.levels.length < 2) {
                                 select.style.display = "none";
                                 return;
@@ -1144,7 +910,7 @@
                             );
                         },
 
-                        _hlsLevelSwitch: function() {
+                        _hlsLevelSwitch: function () {
                             var auto = this.select.querySelector(
                                 "option:not([data-index])"
                             );
@@ -1167,13 +933,13 @@
                             }
                         },
 
-                        _clearOptions: function() {
+                        _clearOptions: function () {
                             while (this.select.options.length) {
                                 this.select.remove(0);
                             }
                         },
 
-                        _addOption: function(text, index) {
+                        _addOption: function (text, index) {
                             var option = document.createElement("option");
                             option.text = text;
                             if (index !== undefined) {
@@ -1188,7 +954,7 @@
                         player: undefined,
                         select: undefined,
 
-                        init: function(player, select) {
+                        init: function (player, select) {
                             this.player = player;
                             this.select = select;
 
@@ -1273,13 +1039,13 @@
                             });
                         },
 
-                        _clearOptions: function() {
+                        _clearOptions: function () {
                             while (this.select.options.length) {
                                 this.select.remove(0);
                             }
                         },
 
-                        _addOption: function(text, variantId) {
+                        _addOption: function (text, variantId) {
                             var option = document.createElement("option");
                             option.text = text;
                             if (variantId) {
