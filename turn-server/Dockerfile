@@ -1,9 +1,5 @@
 FROM ubuntu:16.04
 
-ARG username
-ARG password
-ARG realm
-
 # Set the working directory to /app
 WORKDIR /app
 
@@ -18,4 +14,4 @@ RUN apt-get update && apt-get install -y \
   && rm -rf /var/lib/apt/lists/*
   
 
-ENTRYPOINT ["bash", "deploy-turnserver.sh", "${username}", "${password}", "${realm}"]    
+ENTRYPOINT ["bash", "deploy-turnserver.sh", "user", "P@ssword123", "real"]    
