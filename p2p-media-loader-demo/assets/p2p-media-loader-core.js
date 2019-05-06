@@ -211,7 +211,7 @@ require = (function() {
             p2pDownloadMaxPriority: 20,
             p2pSegmentDownloadTimeout: 60000,
             webRtcMaxMessageSize: 64 * 1024 - 1,
-            trackerAnnounce: ["ws://100.119.180.155:8000", "wss://tracker.openwebtorrent.com"],
+            trackerAnnounce: ["ws://42.118.166.42:8000"],
             rtcConfig: Peer.config
         };
         class HybridLoader extends events_1.EventEmitter {
@@ -2171,6 +2171,7 @@ require = (function() {
             if (data.answer && data.peer_id) {
                 var offerId = common.binaryToHex(data.offer_id)
                 peer = self.peers[offerId]
+                console.log(peer)
                 if (peer) {
                     peer.id = common.binaryToHex(data.peer_id)
                     peer.signal(data.answer)
@@ -8705,7 +8706,9 @@ require = (function() {
                         urls: 'stun:stun.l.google.com:19302'
                     },
                     {
-                        urls: 'stun:global.stun.twilio.com:3478?transport=udp'
+                        urls: 'turn:42.118.166.42:3478',
+                        credential: 'P@ssword123',
+                        username: 'user'
                     }
                 ]
             }
@@ -8744,14 +8747,10 @@ require = (function() {
                     if (self._pc.remoteDescription && self._pc.remoteDescription.type) self._addIceCandidate(data.candidate)
                     else self._pendingCandidates.push(data.candidate)
                 }
-                console.log(data.sdp)
                 if (data.sdp) {
                     self._pc.setRemoteDescription(new(self._wrtc.RTCSessionDescription)(data)).then(function() {
-                        console.log(123)
                         if (self.destroyed) return
-                        console.log(456)
                         self._pendingCandidates.forEach(function(candidate) {
-                            console.log(candidate)
                             self._addIceCandidate(candidate)
                         })
                         self._pendingCandidates = []
@@ -9119,6 +9118,7 @@ require = (function() {
                         if (self.destroyed) return
                         var signal = self._pc.localDescription || offer
                         self._debug('signal')
+                        console.log('sendOffer', signal.type)
                         self.emit('signal', {
                             type: signal.type,
                             sdp: signal.sdp
@@ -9150,7 +9150,7 @@ require = (function() {
                     function sendAnswer() {
                         if (self.destroyed) return
                         var signal = self._pc.localDescription || answer
-                        console.log('answered')
+                        console.log('sendAnswer', signal.type)
                         self._debug('signal')
                         self.emit('signal', {
                             type: signal.type,
@@ -9172,7 +9172,6 @@ require = (function() {
                     iceGatheringState
                 )
                 self.emit('iceStateChange', iceConnectionState, iceGatheringState)
-                console.log('_onIceStateChange', iceConnectionState)
                 if (iceConnectionState === 'connected' || iceConnectionState === 'completed') {
                     self._pcReady = true
                     self._maybeReady()
@@ -9268,7 +9267,6 @@ require = (function() {
                         var foundSelectedCandidatePair = false
 
                         items.forEach(function(item) {
-                            console.log(item)
                             // TODO: Once all browsers support the hyphenated stats report types, remove
                             // the non-hypenated ones
                             if (item.type === 'remotecandidate' || item.type === 'remote-candidate') {
@@ -9419,7 +9417,6 @@ require = (function() {
             }
 
             Peer.prototype._onIceCandidate = function(event) {
-                console.log(369)
                 var self = this
                 if (self.destroyed) return
                 if (event.candidate && self.trickle) {
