@@ -211,7 +211,7 @@ require = (function() {
             p2pDownloadMaxPriority: 20,
             p2pSegmentDownloadTimeout: 60000,
             webRtcMaxMessageSize: 64 * 1024 - 1,
-            trackerAnnounce: ["ws://42.118.166.42:8000"],
+            trackerAnnounce: ["ws://42.118.166.42:8000", "wss://tracker.openwebtorrent.com"],
             rtcConfig: Peer.config
         };
         class HybridLoader extends events_1.EventEmitter {

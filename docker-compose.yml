@@ -11,3 +11,15 @@ services:
     command: npm start config.json
     ports:
     - "8000:8000"
+  turn-server:
+    build:
+      context: ./turn-server
+      args:
+      - username=user
+      - password=P@ssword123
+      - realm=real
+    restart: always
+    ports:
+    - "3478:3478"
+    - "3478:3478/udp"
+
